@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,10 +42,64 @@ namespace ExchangeRate
 
             foreach (var textBox in textBoxesAndRates.Keys)
             {
+                textBox.Text = textBox.Text.Replace(" ", "");
                 if (ignoreTextbox != textBox)
                 {
                     textBox.Text = (value * textBoxesAndRates[textBox]).ToString("0.##");
+                    formart_number(textBox);
                 }
+            }
+        }
+
+        void checkLeadingZero(object sender)
+        {
+            TextBox textBox = sender as TextBox;
+
+            if (!string.IsNullOrEmpty(textBox.Text) && textBox.Text[0] == '0' && textBox.Text.Length > 1 && textBox.Text[1] != '.')
+            {
+                textBox.Text = textBox.Text.TrimStart('0');
+
+                // Set the cursor position to the end of the text
+                textBox.SelectionStart = textBox.Text.Length;
+            }
+        }
+
+        void checkNumberInput(object sender, KeyPressEventArgs e)
+        {
+            // Check if the input is a digit, a control character, a period, or a space
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar) && e.KeyChar != '.' && e.KeyChar != ' ')
+            {
+                e.Handled = true;
+            }
+            // Check if it's a period, and if one already exists in the TextBox
+            else if (e.KeyChar == '.' && (sender as TextBox).Text.IndexOf('.') > -1)
+            {
+                e.Handled = true;
+            }
+            // Check if there are more than two digits after the decimal point
+            else if (e.KeyChar != '.' && ((sender as TextBox).Text.IndexOf('.') > -1) &&
+                     ((sender as TextBox).Text.Length - (sender as TextBox).Text.IndexOf('.')) > 2)
+            {
+                e.Handled = true;
+            }
+        }
+
+
+        void formart_number(TextBox number, bool cusorCheck = false)
+        {
+            decimal num;
+            decimal.TryParse(number.Text.Replace(" ", ""),out num);
+            var cultureInfo = new CultureInfo(CultureInfo.CurrentCulture.Name);
+            cultureInfo.NumberFormat.NumberGroupSeparator = " ";
+            cultureInfo.NumberFormat.NumberGroupSizes = new int[] { 3 };
+            var formattedNumber = num.ToString("N0", cultureInfo);
+            number.Text = formattedNumber;
+
+            // Move cusor to last of text
+            if (cusorCheck)
+            {
+                number.Select(number.Text.Length, 0);
+
             }
         }
 
@@ -85,7 +140,7 @@ namespace ExchangeRate
             {
                 clear();
             }
-            else if (double.TryParse(txtUsd.Text, out double val))
+            else if (double.TryParse(txtUsd.Text.Replace(" ", ""), out double val))
             {
                 calcutate(val, txtUsd);
             }
@@ -97,7 +152,7 @@ namespace ExchangeRate
             {
                 clear();
             }
-            else if (double.TryParse(txtKhr.Text, out double khrInput))
+            else if (double.TryParse(txtKhr.Text.Replace(" ", ""), out double khrInput))
             {
                 double usdRate = khrInput / khrRate;
                 calcutate(usdRate, txtKhr);
@@ -110,7 +165,7 @@ namespace ExchangeRate
             {
                 clear();
             }
-            else if (double.TryParse(txtEur.Text, out double eurInput))
+            else if (double.TryParse(txtEur.Text.Replace(" ", ""), out double eurInput))
             {
                 double usdRate = eurInput / eurRate;
                 calcutate(usdRate, txtEur);
@@ -123,7 +178,7 @@ namespace ExchangeRate
             {
                 clear();
             }
-            else if (double.TryParse(txtBah.Text, out double bahInput))
+            else if (double.TryParse(txtBah.Text.Replace(" ", ""), out double bahInput))
             {
                 double usdRate = bahInput / bahRate;
                 calcutate(usdRate, txtBah);
@@ -136,11 +191,63 @@ namespace ExchangeRate
             {
                 clear();
             }
-            else if (double.TryParse(txtAud.Text, out double audInput))
+            else if (double.TryParse(txtAud.Text.Replace(" ", ""), out double audInput))
             {
                 double usdRate = audInput / audRate;
                 calcutate(usdRate, txtAud);
             }
+        }
+
+        private void txtUsd_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            checkNumberInput(sender, e);
+            //formart_number(sender as TextBox, true, e.KeyChar == '.');
+        }
+
+        private void txtUsd_TextChanged(object sender, EventArgs e)
+        {
+            checkLeadingZero(sender);
+            
+        }
+
+        private void txtKhr_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            checkNumberInput(sender, e);
+        }
+
+        private void txtKhr_TextChanged(object sender, EventArgs e)
+        {
+            checkLeadingZero(sender);
+        }
+
+        private void txtEur_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            checkNumberInput(sender, e);
+        }
+
+        private void txtEur_TextChanged(object sender, EventArgs e)
+        {
+            checkLeadingZero(sender);
+        }
+
+        private void txtBah_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            checkNumberInput(sender, e);
+        }
+
+        private void txtBah_TextChanged(object sender, EventArgs e)
+        {
+            checkLeadingZero(sender);
+        }
+
+        private void txtAud_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            checkNumberInput(sender, e);
+        }
+
+        private void txtAud_TextChanged(object sender, EventArgs e)
+        {
+            checkLeadingZero(sender);
         }
     }
 }

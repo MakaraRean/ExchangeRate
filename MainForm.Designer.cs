@@ -83,6 +83,8 @@
             this.txtUsd.Name = "txtUsd";
             this.txtUsd.Size = new System.Drawing.Size(123, 26);
             this.txtUsd.TabIndex = 2;
+            this.txtUsd.TextChanged += new System.EventHandler(this.txtUsd_TextChanged);
+            this.txtUsd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUsd_KeyPress);
             this.txtUsd.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtUsd_KeyUp);
             // 
             // txtAud
@@ -92,6 +94,8 @@
             this.txtAud.Name = "txtAud";
             this.txtAud.Size = new System.Drawing.Size(123, 26);
             this.txtAud.TabIndex = 4;
+            this.txtAud.TextChanged += new System.EventHandler(this.txtAud_TextChanged);
+            this.txtAud.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAud_KeyPress);
             this.txtAud.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtAud_KeyUp);
             // 
             // label2
@@ -111,6 +115,8 @@
             this.txtBah.Name = "txtBah";
             this.txtBah.Size = new System.Drawing.Size(123, 26);
             this.txtBah.TabIndex = 6;
+            this.txtBah.TextChanged += new System.EventHandler(this.txtBah_TextChanged);
+            this.txtBah.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBah_KeyPress);
             this.txtBah.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBah_KeyUp);
             // 
             // label3
@@ -130,6 +136,8 @@
             this.txtEur.Name = "txtEur";
             this.txtEur.Size = new System.Drawing.Size(123, 26);
             this.txtEur.TabIndex = 8;
+            this.txtEur.TextChanged += new System.EventHandler(this.txtEur_TextChanged);
+            this.txtEur.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEur_KeyPress);
             this.txtEur.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtEur_KeyUp);
             // 
             // label4
@@ -149,6 +157,8 @@
             this.txtKhr.Name = "txtKhr";
             this.txtKhr.Size = new System.Drawing.Size(123, 26);
             this.txtKhr.TabIndex = 10;
+            this.txtKhr.TextChanged += new System.EventHandler(this.txtKhr_TextChanged);
+            this.txtKhr.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtKhr_KeyPress);
             this.txtKhr.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtKhr_KeyUp);
             // 
             // label5
